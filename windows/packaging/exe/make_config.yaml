@@ -1,11 +1,11 @@
 script_template: inno_setup.iss
-app_id: 728B3532-C74B-4870-9068-BE70FE12A3E6
-app_name: FlClash
-publisher: chen08209
-publisher_url: https://github.com/chen08209/FlClash
-display_name: FlClash
-executable_name: FlClash.exe
-output_base_file_name: FlClash.exe
+app_id: BE7FBA48-2C6A-40EC-8DF8-C73451B800AA
+app_name: fix
+publisher: VictoryCloud
+publisher_url: https://victorycloud.ru
+display_name: fix
+executable_name: fix.exe
+output_base_file_name: fix.exe
 # Resolved against the project root: flutter_distributor turns this into an
 # absolute path via Directory.current.
 setup_icon_file: windows\runner\resources\app_icon.ico
@@ -15,4 +15,5 @@ locales:
   - lang: zh
     file: ..\windows\packaging\exe\ChineseSimplified.isl
   - lang: en
+  - lang: ru
 privileges_required: admin

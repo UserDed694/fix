@@ -9,11 +9,13 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:material_ui/material_ui.dart';
 
-const appName = 'FlClash';
+const appName = 'fix';
 const appHelperService = 'FlClashHelperService';
 const coreManifestName = 'manifest.json';
 const browserUa =
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+// Префикс MethodChannel-ов, совпадает с Kotlin-пакетом (Components.PACKAGE_NAME),
+// а не с applicationId ru.victorycloud.fix — поэтому остаётся com.follow.clash.
 const packageName = 'com.follow.clash';
 final unixSocketPath = '/tmp/FlClashSocket_${Random().nextInt(10000)}.sock';
 final windowsPipeName = '\\\\.\\pipe\\FlClashCore_${_randomPipeId()}';
@@ -31,7 +33,7 @@ const watchExecution = false;
 
 const safeModeBuild = bool.fromEnvironment('SAFE_MODE');
 
-const disclaimerVersion = 1;
+const disclaimerVersion = 2;
 
 String _randomPipeId() {
   final random = Random.secure();
@@ -121,7 +123,11 @@ const systemDnsRecordKey = 'system_dns_record';
 const bootRecordKey = 'boot_record';
 const appliedConfigMd5Key = 'applied_config_md5';
 const defaultSystemDnsFallback = '223.5.5.5';
-const repository = 'chen08209/FlClash';
+const repository = 'UserDed694/fix';
+const upstreamRepository = 'chen08209/FlClash';
+const vendorName = 'VictoryCloud';
+const vendorSiteUrl = 'https://victorycloud.ru';
+const supportUrl = 'https://t.me/VictorySup_bot';
 const maxMobileWidth = 600;
 const maxLaptopWidth = 840;
 const defaultTestUrl = 'https://www.gstatic.com/generate_204';

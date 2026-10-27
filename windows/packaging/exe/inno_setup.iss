@@ -25,7 +25,7 @@ var
   i: Integer;
   ResultCode: Integer;
 begin
-  Processes := ['FlClash.exe', 'FlClashCore.exe', 'FlClashHelperService.exe'];
+  Processes := ['fix.exe', 'FlClashCore.exe', 'FlClashHelperService.exe'];
 
   for i := 0 to GetArrayLength(Processes)-1 do
   begin
@@ -113,10 +113,10 @@ end;
 // windows/runner/Runner.rc.
 procedure RemoveUserData;
 begin
-  DelTree(ExpandConstant('{userappdata}\com.follow\clash'), True, True, True);
-  DelTree(ExpandConstant('{localappdata}\com.follow\clash'), True, True, True);
-  RemoveDir(ExpandConstant('{userappdata}\com.follow'));
-  RemoveDir(ExpandConstant('{localappdata}\com.follow'));
+  DelTree(ExpandConstant('{userappdata}\VictoryCloud\fix'), True, True, True);
+  DelTree(ExpandConstant('{localappdata}\VictoryCloud\fix'), True, True, True);
+  RemoveDir(ExpandConstant('{userappdata}\VictoryCloud'));
+  RemoveDir(ExpandConstant('{localappdata}\VictoryCloud'));
 end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
