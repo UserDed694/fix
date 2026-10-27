@@ -1,8 +1,8 @@
-display_name: FlClash
-package_name: FlClash
+display_name: fix
+package_name: fix
 maintainer:
-  name: chen08209
-  email: chen08209@gmail.com
+  name: VictoryCloud
+  email: support@victorycloud.ru
 
 priority: optional
 section: x11
@@ -28,16 +28,16 @@ supported_mime_type:
   - x-scheme-handler/flclash
 
 keywords:
-  - FlClash
+  - fix
   - Clash
   - ClashMeta
   - Proxy
 
-generic_name: FlClash
+generic_name: VPN client
 
 categories:
   - Network
 
 startup_notify: true
 
-startup_wm_class: com.follow.clash
+startup_wm_class: ru.victorycloud.fix

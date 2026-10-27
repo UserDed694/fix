@@ -90,7 +90,7 @@ Flutter lengths are logical pixels, the unit Android calls dp. Comments, test na
 as in `48 dp`, never px: a reader takes px for physical pixels and misjudges the size by the device pixel ratio. Write
 "physical pixel" in full where the code really works in them, as the hairline snapping in
 `lib/ui/list_row_separator.dart` and the Win32 frame metrics in `plugins/window` do; raster image sizes in
-`tool/` and CSS under `site/` keep px. `test/lint/length_unit_test.dart` fails on a number followed by px in `lib/`
+`tool/` keep px. `test/lint/length_unit_test.dart` fails on a number followed by px in `lib/`
 and `test/`.
 
 CI gates formatting: `dart format --output=none --set-exit-if-changed lib test

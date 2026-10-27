@@ -1,4 +1,4 @@
-display_name: FlClash
+display_name: fix
 
 icon: ./assets/images/icon.png
 
@@ -8,18 +8,18 @@ supported_mime_type:
   - x-scheme-handler/flclash
 
 keywords:
-  - FlClash
+  - fix
   - Clash
   - ClashMeta
   - Proxy
 
-generic_name: FlClash
+generic_name: VPN client
 
 categories:
   - Network
 
 startup_notify: true
 
-startup_wm_class: com.follow.clash
+startup_wm_class: ru.victorycloud.fix
 
 include: []

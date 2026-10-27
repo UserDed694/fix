@@ -23,6 +23,8 @@ val hasReleaseSigning = releaseStoreFile.exists() &&
     releaseKeyPassword != null
 
 android {
+    // namespace — это Kotlin-пакет и javapkg gomobile-ядра; его переименование
+    // затронуло бы ~45 файлов и AAR, поэтому меняется только applicationId.
     namespace = "com.follow.clash"
     compileSdk = libs.versions.compileSdk.get().toInt()
     ndkVersion = libs.versions.ndkVersion.get()
@@ -33,7 +35,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.follow.clash"
+        applicationId = "ru.victorycloud.fix"
         minSdk = flutter.minSdkVersion
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = flutter.versionCode
