@@ -963,5 +963,17 @@
   "preferred": "우선",
   "addToLocalProxies": "로컬 프록시에 추가",
   "addedToLocalProxies": "{name}을(를) 로컬 프록시에 추가했습니다",
-  "alreadyInLocalProxies": "{name}은(는) 이미 로컬 프록시에 있습니다"
+  "alreadyInLocalProxies": "{name}은(는) 이미 로컬 프록시에 있습니다",
+  "home": "Home",
+  "subscriptionKey": "Subscription key or link",
+  "subscriptionKeyDesc": "Paste the key or the subscription link from your account.",
+  "connect": "Connect",
+  "disconnect": "Disconnect",
+  "subscriptionHostNotAllowed": "Only subscriptions from {host} are accepted",
+  "changeSubscription": "Change subscription",
+  "changeSubscriptionTip": "The current subscription will be removed and the connection stopped. You can enter a new key afterwards.",
+  "advancedSettings": "Advanced settings",
+  "servers": "Servers",
+  "noServersTip": "The server list appears once the subscription is loaded.",
+  "subscription": "Subscription"
 }

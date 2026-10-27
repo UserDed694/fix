@@ -1,3 +1,4 @@
+import 'package:fl_clash/common/brand.dart';
 import 'package:fl_clash/common/fixed.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
@@ -177,8 +178,12 @@ void main() {
   });
 
   group('CurrentPageLabel provider', () {
-    test('default is dashboard', () {
-      expect(container.read(currentPageLabelProvider), PageLabel.dashboard);
+    test('default is the start page of the build mode', () {
+      expect(container.read(currentPageLabelProvider), defaultPageLabel);
+      expect(
+        defaultPageLabel,
+        simpleMode ? PageLabel.home : PageLabel.dashboard,
+      );
     });
 
     test('toPage changes page', () {

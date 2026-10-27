@@ -54,6 +54,12 @@ class AddProfileMenu extends ConsumerWidget {
         if (!value.isUrl && !value.isShareLink) {
           return appLocalizations.invalidLinkTip;
         }
+        if (ref.read(simpleModeEnabledProvider) &&
+            !isAllowedSubscriptionUrl(value)) {
+          return appLocalizations.subscriptionHostNotAllowed(
+            allowedSubscriptionHost,
+          );
+        }
         return null;
       },
       existingUrls: {
@@ -127,20 +133,23 @@ class AddProfileMenu extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = context.appLocalizations;
+    final linkOnly = ref.watch(simpleModeEnabledProvider);
     return CommonPopupBox(
       targetBuilder: builder,
       popupBuilder: (_) => CommonPopupMenu(
         items: [
-          CommonPopupMenuItem(
-            glyph: AppGlyphs.qrCode,
-            label: appLocalizations.qrcode,
-            onPressed: () => _toScan(context, ref),
-          ),
-          CommonPopupMenuItem(
-            glyph: AppGlyphs.importFile,
-            label: appLocalizations.file,
-            onPressed: () => _handleAddProfileFormFile(ref),
-          ),
+          if (!linkOnly) ...[
+            CommonPopupMenuItem(
+              glyph: AppGlyphs.qrCode,
+              label: appLocalizations.qrcode,
+              onPressed: () => _toScan(context, ref),
+            ),
+            CommonPopupMenuItem(
+              glyph: AppGlyphs.importFile,
+              label: appLocalizations.file,
+              onPressed: () => _handleAddProfileFormFile(ref),
+            ),
+          ],
           CommonPopupMenuItem(
             glyph: AppGlyphs.cloudDownload,
             label: appLocalizations.link,
@@ -152,12 +161,13 @@ class AddProfileMenu extends ConsumerWidget {
               label: appLocalizations.sendFromPhone,
               onPressed: () => _toSendFromPhone(ref),
             ),
-          CommonPopupMenuItem(
-            section: const CommonPopupMenuSection(),
-            glyph: AppGlyphs.customize,
-            label: appLocalizations.customProfile,
-            onPressed: () => _toAddCustom(context, ref),
-          ),
+          if (!linkOnly)
+            CommonPopupMenuItem(
+              section: const CommonPopupMenuSection(),
+              glyph: AppGlyphs.customize,
+              label: appLocalizations.customProfile,
+              onPressed: () => _toAddCustom(context, ref),
+            ),
         ],
       ),
     );

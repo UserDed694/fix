@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:fl_clash/common/boot_record.dart';
 import 'package:fl_clash/common/common.dart';
@@ -12,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Preferences {
   static Preferences? _instance;
   var _store = ResolveOnce(_open);
+  String? _deviceId;
 
   Future<bool> get isInit async => await _store.value != null;
 
@@ -28,12 +30,31 @@ class Preferences {
   @visibleForTesting
   Future<void> rebind() async {
     _store = ResolveOnce(_open);
+    _deviceId = null;
     await _store.value;
   }
 
   factory Preferences() {
     _instance ??= Preferences._internal();
     return _instance!;
+  }
+
+  /// Создаётся один раз и больше не меняется: по нему панель считает
+  /// устройства пользователя (заголовок `x-hwid`). Кэш в памяти нужен на
+  /// случай недоступного хранилища, чтобы id не менялся от запроса к запросу.
+  Future<String> getDeviceId() async {
+    final cached = _deviceId;
+    if (cached != null) {
+      return cached;
+    }
+    final preferences = await _store.value;
+    final saved = preferences?.getString(deviceIdKey);
+    if (saved != null && saved.isNotEmpty) {
+      return _deviceId = saved;
+    }
+    final id = _newDeviceId();
+    await preferences?.setString(deviceIdKey, id);
+    return _deviceId = id;
   }
 
   Future<int> getVersion() async {
@@ -194,3 +215,16 @@ class Preferences {
 }
 
 final preferences = Preferences();
+
+/// UUID v4 из криптографически стойкого источника, без внешних зависимостей.
+String _newDeviceId() {
+  final random = Random.secure();
+  final bytes = List<int>.generate(16, (_) => random.nextInt(256));
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  final hex = [
+    for (final byte in bytes) byte.toRadixString(16).padLeft(2, '0'),
+  ].join();
+  return '${hex.substring(0, 8)}-${hex.substring(8, 12)}-'
+      '${hex.substring(12, 16)}-${hex.substring(16, 20)}-${hex.substring(20)}';
+}

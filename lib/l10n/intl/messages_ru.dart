@@ -217,18 +217,20 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m79(label) => "«${label}» — только одно значение";
 
-  static String m80(value) => "Пик ${value}";
+  static String m80(host) => "Принимаются только подписки с ${host}";
 
-  static String m81(value) => "Всего ${value}";
+  static String m81(value) => "Пик ${value}";
 
-  static String m82(transport) => "Заголовки ${transport}";
+  static String m82(value) => "Всего ${value}";
 
-  static String m83(label) => "Значение «${label}» должно быть URL";
+  static String m83(transport) => "Заголовки ${transport}";
 
-  static String m84(count) =>
-      "${Intl.plural(count, one: '${count} год назад', few: '${count} года назад', many: '${count} лет назад', other: '${count} года назад')}";
+  static String m84(label) => "Значение «${label}» должно быть URL";
 
   static String m85(count) =>
+      "${Intl.plural(count, one: '${count} год назад', few: '${count} года назад', many: '${count} лет назад', other: '${count} года назад')}";
+
+  static String m86(count) =>
       "${Intl.plural(count, one: '${count} г. назад', few: '${count} г. назад', many: '${count} л. назад', other: '${count} г. назад')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -302,6 +304,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "advancedConfigDesc": MessageLookupByLibrary.simpleMessage(
       "Расширенная конфигурация включает сеть, DNS, добавленные правила и скрипты.",
+    ),
+    "advancedSettings": MessageLookupByLibrary.simpleMessage(
+      "Расширенные настройки",
     ),
     "ageEncryptedProfile": MessageLookupByLibrary.simpleMessage(
       "Зашифрованный профиль",
@@ -444,6 +449,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "changeProxyFailedTip": MessageLookupByLibrary.simpleMessage(
       "Не удалось переключить прокси; восстановлен предыдущий выбор",
     ),
+    "changeSubscription": MessageLookupByLibrary.simpleMessage(
+      "Сменить подписку",
+    ),
+    "changeSubscriptionTip": MessageLookupByLibrary.simpleMessage(
+      "Текущая подписка будет удалена, а соединение остановлено. После этого можно ввести новый ключ.",
+    ),
     "changelogBreaking": MessageLookupByLibrary.simpleMessage(
       "Важные изменения",
     ),
@@ -517,6 +528,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "congestionControllerDesc": MessageLookupByLibrary.simpleMessage(
       "Управление перегрузкой TCP действует только со стеком mips.",
     ),
+    "connect": MessageLookupByLibrary.simpleMessage("Подключить"),
     "connected": MessageLookupByLibrary.simpleMessage("Подключено"),
     "connecting": MessageLookupByLibrary.simpleMessage("Подключение…"),
     "connection": MessageLookupByLibrary.simpleMessage("Соединение"),
@@ -741,6 +753,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "disclaimerWarrantyTitle": MessageLookupByLibrary.simpleMessage(
       "Отсутствие гарантий",
     ),
+    "disconnect": MessageLookupByLibrary.simpleMessage("Отключить"),
     "disconnected": MessageLookupByLibrary.simpleMessage("Отключено"),
     "discoverNewVersion": MessageLookupByLibrary.simpleMessage(
       "Доступна новая версия",
@@ -927,6 +940,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "hideTimeoutProxies": MessageLookupByLibrary.simpleMessage(
       "Скрывать прокси с таймаутом",
     ),
+    "home": MessageLookupByLibrary.simpleMessage("Главная"),
     "hopInterval": MessageLookupByLibrary.simpleMessage("Интервал перескока"),
     "host": MessageLookupByLibrary.simpleMessage("Хост"),
     "hostname": MessageLookupByLibrary.simpleMessage("Имя хоста"),
@@ -1281,6 +1295,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noSearchResults": MessageLookupByLibrary.simpleMessage(
       "Ничего не найдено",
+    ),
+    "noServersTip": MessageLookupByLibrary.simpleMessage(
+      "Список серверов появится после загрузки подписки.",
     ),
     "nodes": MessageLookupByLibrary.simpleMessage("Узлы"),
     "nonTextProviderFile": MessageLookupByLibrary.simpleMessage(
@@ -1745,6 +1762,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Отсканируйте код камерой телефона и вставьте ссылку на открывшейся странице. Оба устройства должны быть в одной сети.",
     ),
     "server": MessageLookupByLibrary.simpleMessage("Сервер"),
+    "servers": MessageLookupByLibrary.simpleMessage("Серверы"),
     "serviceAbnormalCount": m76,
     "serviceAllAvailable": MessageLookupByLibrary.simpleMessage("Все доступны"),
     "serviceAvailable": MessageLookupByLibrary.simpleMessage("Доступен"),
@@ -1870,8 +1888,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "style": MessageLookupByLibrary.simpleMessage("Стиль"),
     "submit": MessageLookupByLibrary.simpleMessage("Отправить"),
+    "subscription": MessageLookupByLibrary.simpleMessage("Подписка"),
+    "subscriptionHostNotAllowed": m80,
     "subscriptionInfo": MessageLookupByLibrary.simpleMessage(
       "Информация о подписке",
+    ),
+    "subscriptionKey": MessageLookupByLibrary.simpleMessage(
+      "Ключ или ссылка подписки",
+    ),
+    "subscriptionKeyDesc": MessageLookupByLibrary.simpleMessage(
+      "Вставьте ключ или ссылку подписки из личного кабинета.",
     ),
     "sudoPasswordTitle": MessageLookupByLibrary.simpleMessage(
       "Введите пароль для sudo",
@@ -1921,11 +1947,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "totalUpload": MessageLookupByLibrary.simpleMessage("Отдано"),
     "tproxyPort": MessageLookupByLibrary.simpleMessage("Порт TProxy"),
     "traffic": MessageLookupByLibrary.simpleMessage("Трафик"),
-    "trafficPeak": m80,
-    "trafficTotal": m81,
+    "trafficPeak": m81,
+    "trafficTotal": m82,
     "trafficUsage": MessageLookupByLibrary.simpleMessage("Статистика трафика"),
     "transport": MessageLookupByLibrary.simpleMessage("Транспорт"),
-    "transportHeaders": m82,
+    "transportHeaders": m83,
     "tun": MessageLookupByLibrary.simpleMessage("TUN"),
     "tunAuthorizationFailed": MessageLookupByLibrary.simpleMessage(
       "Не удалось получить права для TUN, поэтому он выключен.",
@@ -1959,7 +1985,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "upload": MessageLookupByLibrary.simpleMessage("Отдача"),
     "uploadBandwidth": MessageLookupByLibrary.simpleMessage("Скорость отдачи"),
     "url": MessageLookupByLibrary.simpleMessage("URL"),
-    "urlTip": m83,
+    "urlTip": m84,
     "useHosts": MessageLookupByLibrary.simpleMessage("Использовать hosts"),
     "useSystemHosts": MessageLookupByLibrary.simpleMessage(
       "Использовать системный hosts",
@@ -1992,8 +2018,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "writeToSystemDesc": MessageLookupByLibrary.simpleMessage(
       "«Записывать в систему» также устанавливает системные часы; Android это игнорирует.",
     ),
-    "yearsAgo": m84,
-    "yearsAgoShort": m85,
+    "yearsAgo": m85,
+    "yearsAgoShort": m86,
     "yes": MessageLookupByLibrary.simpleMessage("Да"),
     "zhCN": MessageLookupByLibrary.simpleMessage("Упрощённый китайский"),
   };

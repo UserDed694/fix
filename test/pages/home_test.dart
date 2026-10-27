@@ -117,6 +117,9 @@ void main() {
       addTearDown(container.dispose);
       globalState.container = container;
       container.read(viewSizeProvider.notifier).value = const Size(1200, 800);
+      container
+          .read(currentPageLabelProvider.notifier)
+          .toPage(PageLabel.dashboard);
 
       await tester.pumpWidget(
         UncontrolledProviderScope(

@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:fl_clash/common/app_ports.dart';
+import 'package:fl_clash/common/brand.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/pages/home.dart';
@@ -84,6 +85,12 @@ Future<ProviderContainer> _pumpHome(
   addTearDown(container.dispose);
   globalState.container = container;
   container.read(viewSizeProvider.notifier).value = _mobileSize;
+  // The items here start at the dashboard; a page an override already set stays.
+  if (container.read(currentPageLabelProvider) == defaultPageLabel) {
+    container
+        .read(currentPageLabelProvider.notifier)
+        .toPage(PageLabel.dashboard);
+  }
   await tester.pumpWidget(
     UncontrolledProviderScope(
       container: container,

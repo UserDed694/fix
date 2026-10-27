@@ -1,4 +1,5 @@
 import 'package:fl_clash/common/app_ports.dart';
+import 'package:fl_clash/common/brand.dart';
 import 'package:fl_clash/common/cidr.dart';
 import 'package:fl_clash/common/constant.dart';
 import 'package:fl_clash/common/system.dart';
@@ -368,32 +369,52 @@ void main() {
     final mobile = container.read(currentNavigationItemsStateProvider).value;
     expect(
       mobile.map((item) => item.label),
-      containsAll([PageLabel.dashboard, PageLabel.profiles, PageLabel.tools]),
+      containsAll(
+        simpleMode
+            ? [PageLabel.home, PageLabel.tools]
+            : [PageLabel.dashboard, PageLabel.profiles, PageLabel.tools],
+      ),
     );
     expect(
       mobile.map((item) => item.label),
       isNot(contains(PageLabel.connections)),
     );
 
+    const desktopOnly = simpleMode ? PageLabel.tools : PageLabel.connections;
     container
         .read(viewSizeProvider.notifier)
         .update((_) => const Size(1200, 800));
-    container
-        .read(currentPageLabelProvider.notifier)
-        .toPage(PageLabel.connections);
+    container.read(currentPageLabelProvider.notifier).toPage(desktopOnly);
     final desktop = container.read(navigationStateProvider);
     expect(desktop.viewMode, ViewMode.desktop);
     expect(desktop.currentIndex, greaterThan(0));
-    expect(
-      desktop.navigationItems[desktop.currentIndex].label,
-      PageLabel.connections,
-    );
+    expect(desktop.navigationItems[desktop.currentIndex].label, desktopOnly);
 
     container
         .read(currentPageLabelProvider.notifier)
         .toPage(PageLabel.resources);
     expect(container.read(navigationStateProvider).currentIndex, 0);
   });
+
+  test(
+    'simple mode keeps the full pages reachable from the tools section',
+    skip: !simpleMode,
+    () {
+      final all = container.read(navigationItemsStateProvider).value;
+      expect(all.first.label, PageLabel.home);
+      final more = container
+          .read(moreToolsSelectorStateProvider)
+          .navigationItems
+          .map((item) => item.label);
+      expect(more, containsAll([PageLabel.dashboard, PageLabel.profiles]));
+      expect(more, isNot(contains(PageLabel.home)));
+      expect(more, isNot(contains(PageLabel.tools)));
+      final requests = all.singleWhere(
+        (item) => item.label == PageLabel.requests,
+      );
+      expect(requests.modes, [NavigationItemMode.moreFull]);
+    },
+  );
 
   test('layout and page state providers compose their dependencies', () {
     final profile = Profile.normal(label: 'Primary');

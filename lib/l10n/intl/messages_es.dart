@@ -225,18 +225,20 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m79(label) => "${label} debe ser un solo elemento";
 
-  static String m80(value) => "Pico: ${value}";
+  static String m80(host) => "Only subscriptions from ${host} are accepted";
 
-  static String m81(value) => "Total: ${value}";
+  static String m81(value) => "Pico: ${value}";
 
-  static String m82(transport) => "Encabezados ${transport}";
+  static String m82(value) => "Total: ${value}";
 
-  static String m83(label) => "${label} debe ser una URL";
+  static String m83(transport) => "Encabezados ${transport}";
 
-  static String m84(count) =>
+  static String m84(label) => "${label} debe ser una URL";
+
+  static String m85(count) =>
       "${Intl.plural(count, one: 'hace 1 año', other: 'hace ${count} años')}";
 
-  static String m85(count) => "${Intl.plural(count, other: 'hace ${count} a')}";
+  static String m86(count) => "${Intl.plural(count, other: 'hace ${count} a')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -311,6 +313,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "advancedConfigDesc": MessageLookupByLibrary.simpleMessage(
       "La configuración avanzada incluye la red, el DNS, las reglas añadidas y los scripts.",
+    ),
+    "advancedSettings": MessageLookupByLibrary.simpleMessage(
+      "Advanced settings",
     ),
     "ageEncryptedProfile": MessageLookupByLibrary.simpleMessage(
       "Perfil cifrado",
@@ -463,6 +468,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "changeProxyFailedTip": MessageLookupByLibrary.simpleMessage(
       "No se pudo cambiar de proxy; se ha restaurado la selección anterior",
     ),
+    "changeSubscription": MessageLookupByLibrary.simpleMessage(
+      "Change subscription",
+    ),
+    "changeSubscriptionTip": MessageLookupByLibrary.simpleMessage(
+      "The current subscription will be removed and the connection stopped. You can enter a new key afterwards.",
+    ),
     "changelogBreaking": MessageLookupByLibrary.simpleMessage(
       "Cambios incompatibles",
     ),
@@ -540,6 +551,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "congestionControllerDesc": MessageLookupByLibrary.simpleMessage(
       "El control de congestión TCP solo funciona con la pila mips.",
     ),
+    "connect": MessageLookupByLibrary.simpleMessage("Connect"),
     "connected": MessageLookupByLibrary.simpleMessage("Conectado"),
     "connecting": MessageLookupByLibrary.simpleMessage("Conectando…"),
     "connection": MessageLookupByLibrary.simpleMessage("Conexión"),
@@ -760,6 +772,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "disclaimerWarrantyTitle": MessageLookupByLibrary.simpleMessage(
       "Sin garantía",
     ),
+    "disconnect": MessageLookupByLibrary.simpleMessage("Disconnect"),
     "disconnected": MessageLookupByLibrary.simpleMessage("Desconectado"),
     "discoverNewVersion": MessageLookupByLibrary.simpleMessage(
       "Nueva versión disponible",
@@ -954,6 +967,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "hideTimeoutProxies": MessageLookupByLibrary.simpleMessage(
       "Ocultar proxies sin respuesta",
     ),
+    "home": MessageLookupByLibrary.simpleMessage("Home"),
     "hopInterval": MessageLookupByLibrary.simpleMessage("Intervalo de salto"),
     "host": MessageLookupByLibrary.simpleMessage("Host"),
     "hostname": MessageLookupByLibrary.simpleMessage("Nombre de host"),
@@ -1322,6 +1336,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "noSearchResults": MessageLookupByLibrary.simpleMessage(
       "No hay resultados",
+    ),
+    "noServersTip": MessageLookupByLibrary.simpleMessage(
+      "The server list appears once the subscription is loaded.",
     ),
     "nodes": MessageLookupByLibrary.simpleMessage("Nodos"),
     "nonTextProviderFile": MessageLookupByLibrary.simpleMessage(
@@ -1798,6 +1815,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Escanea el código con la cámara del teléfono y pega el enlace en la página que se abre. Ambos dispositivos deben estar en la misma red.",
     ),
     "server": MessageLookupByLibrary.simpleMessage("Servidor"),
+    "servers": MessageLookupByLibrary.simpleMessage("Servers"),
     "serviceAbnormalCount": m76,
     "serviceAllAvailable": MessageLookupByLibrary.simpleMessage(
       "Todo disponible",
@@ -1929,8 +1947,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "style": MessageLookupByLibrary.simpleMessage("Estilo"),
     "submit": MessageLookupByLibrary.simpleMessage("Enviar"),
+    "subscription": MessageLookupByLibrary.simpleMessage("Subscription"),
+    "subscriptionHostNotAllowed": m80,
     "subscriptionInfo": MessageLookupByLibrary.simpleMessage(
       "Información de la suscripción",
+    ),
+    "subscriptionKey": MessageLookupByLibrary.simpleMessage(
+      "Subscription key or link",
+    ),
+    "subscriptionKeyDesc": MessageLookupByLibrary.simpleMessage(
+      "Paste the key or the subscription link from your account.",
     ),
     "sudoPasswordTitle": MessageLookupByLibrary.simpleMessage(
       "Introduce tu contraseña para sudo",
@@ -1978,11 +2004,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "totalUpload": MessageLookupByLibrary.simpleMessage("Subido"),
     "tproxyPort": MessageLookupByLibrary.simpleMessage("Puerto TProxy"),
     "traffic": MessageLookupByLibrary.simpleMessage("Tráfico"),
-    "trafficPeak": m80,
-    "trafficTotal": m81,
+    "trafficPeak": m81,
+    "trafficTotal": m82,
     "trafficUsage": MessageLookupByLibrary.simpleMessage("Uso de tráfico"),
     "transport": MessageLookupByLibrary.simpleMessage("Transporte"),
-    "transportHeaders": m82,
+    "transportHeaders": m83,
     "tun": MessageLookupByLibrary.simpleMessage("TUN"),
     "tunAuthorizationFailed": MessageLookupByLibrary.simpleMessage(
       "No se pudo autorizar TUN, por lo que se desactivó.",
@@ -2018,7 +2044,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ancho de banda de subida",
     ),
     "url": MessageLookupByLibrary.simpleMessage("URL"),
-    "urlTip": m83,
+    "urlTip": m84,
     "useHosts": MessageLookupByLibrary.simpleMessage("Usar hosts"),
     "useSystemHosts": MessageLookupByLibrary.simpleMessage(
       "Usar hosts del sistema",
@@ -2047,8 +2073,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "writeToSystemDesc": MessageLookupByLibrary.simpleMessage(
       "Escribir en el sistema también ajusta el reloj del sistema; Android lo ignora.",
     ),
-    "yearsAgo": m84,
-    "yearsAgoShort": m85,
+    "yearsAgo": m85,
+    "yearsAgoShort": m86,
     "yes": MessageLookupByLibrary.simpleMessage("Sí"),
     "zhCN": MessageLookupByLibrary.simpleMessage("Chino simplificado"),
   };

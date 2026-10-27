@@ -186,6 +186,9 @@ class ProfilesAction extends _$ProfilesAction {
   }
 
   Future<void> addProfileFormFile() async {
+    if (await globalState.safeRun(_requireLocalProfiles) != true) {
+      return;
+    }
     final platformFile = await globalState.safeRun(picker.pickerFile);
     if (platformFile == null) return;
     final bytes = await platformFile.readBytes();
@@ -208,6 +211,7 @@ class ProfilesAction extends _$ProfilesAction {
   }
 
   int addCustomProfile(String label) {
+    _requireLocalProfiles();
     final profile = Profile.custom(label: label);
     putProfile(profile);
     return profile.id;
@@ -342,7 +346,37 @@ class ProfilesAction extends _$ProfilesAction {
     );
   }
 
+  /// В простом режиме принимаем только подписки нашей панели. Проверка стоит
+  /// в действии, а не в форме: через неё проходят форма, QR, deep-link и TV.
+  void _requireAllowedSubscription(String link) {
+    if (!ref.read(simpleModeEnabledProvider) ||
+        isAllowedSubscriptionUrl(link)) {
+      return;
+    }
+    throw MessageException(
+      currentAppLocalizations.subscriptionHostNotAllowed(
+        allowedSubscriptionHost,
+      ),
+    );
+  }
+
+  /// Файлы и custom-профили обходят проверку хоста, поэтому в простом режиме
+  /// закрыты целиком.
+  bool _requireLocalProfiles() {
+    if (!ref.read(simpleModeEnabledProvider)) {
+      return true;
+    }
+    throw MessageException(
+      currentAppLocalizations.subscriptionHostNotAllowed(
+        allowedSubscriptionHost,
+      ),
+    );
+  }
+
   void _showProfiles() {
+    if (ref.read(simpleModeEnabledProvider)) {
+      return;
+    }
     if (globalState.navigatorKey.currentState?.canPop() ?? false) {
       globalState.navigatorKey.currentState?.popUntil((route) => route.isFirst);
     }
@@ -355,9 +389,9 @@ class ProfilesAction extends _$ProfilesAction {
     String ageSecretKey = '',
   }) async {
     _showProfiles();
-    final profile = await globalState.loadingRun(
-      tag: LoadingTag.profiles,
-      () => link.isShareLink
+    final profile = await globalState.loadingRun(tag: LoadingTag.profiles, () {
+      _requireAllowedSubscription(link);
+      return link.isShareLink
           ? _fromShareLinks(Profile.normal(label: label), [link])
           : _withAgeSecretKey(
               Profile.normal(
@@ -365,9 +399,8 @@ class ProfilesAction extends _$ProfilesAction {
                 url: link,
               ).copyWith(ageSecretKey: ageSecretKey),
               _download,
-            ),
-      title: currentAppLocalizations.addProfile,
-    );
+            );
+    }, title: currentAppLocalizations.addProfile);
     if (profile != null) {
       putProfile(profile);
     }
@@ -389,11 +422,16 @@ class ProfilesAction extends _$ProfilesAction {
           else if (link == shareLinks.first)
             (profile: Profile.normal(), shareLinks: shareLinks),
       ],
-      (item) async => putProfile(
-        await (item.shareLinks.isEmpty
-            ? _download(item.profile)
-            : _fromShareLinks(item.profile, item.shareLinks)),
-      ),
+      (item) async {
+        _requireAllowedSubscription(
+          item.shareLinks.firstOrNull ?? item.profile.url,
+        );
+        putProfile(
+          await (item.shareLinks.isEmpty
+              ? _download(item.profile)
+              : _fromShareLinks(item.profile, item.shareLinks)),
+        );
+      },
       label: (item) => item.shareLinks.firstOrNull ?? item.profile.url,
       concurrency: maxConcurrentImports,
       tag: LoadingTag.profiles,

@@ -1,4 +1,5 @@
 import 'package:fl_clash/common/app_ports.dart';
+import 'package:fl_clash/common/brand.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/ui/icons/app_glyphs.dart';
@@ -8,10 +9,48 @@ import 'package:material_ui/material_ui.dart';
 class Navigation implements NavigationPort {
   static Navigation? _instance;
 
+  /// В простом режиме вкладок две: «Главная» и «Инструменты», а страницы
+  /// полного FlClash уходят в раздел «Ещё» внутри инструментов.
   @override
   List<NavigationItem> getItems({
     bool openLogs = false,
     bool hasProxies = false,
+  }) {
+    final items = _fullItems(openLogs: openLogs, hasProxies: hasProxies);
+    if (!simpleMode) {
+      return items;
+    }
+    return [
+      NavigationItem(
+        glyph: AppGlyphs.vpn,
+        label: PageLabel.home,
+        builder: (_) =>
+            const SimpleHomeView(key: GlobalObjectKey(PageLabel.home)),
+      ),
+      for (final item in items)
+        if (item.label == PageLabel.tools)
+          item
+        else
+          item.copyWith(modes: _advancedModesOf(item.modes)),
+    ];
+  }
+
+  /// Скрытая в полном режиме страница остаётся скрытой; широкие таблицы
+  /// сохраняют `moreFull`, чтобы открываться на всю ширину.
+  static List<NavigationItemMode> _advancedModesOf(
+    List<NavigationItemMode> modes,
+  ) {
+    if (modes.isEmpty) {
+      return const [];
+    }
+    return modes.contains(NavigationItemMode.moreFull)
+        ? const [NavigationItemMode.moreFull]
+        : const [NavigationItemMode.more];
+  }
+
+  List<NavigationItem> _fullItems({
+    required bool openLogs,
+    required bool hasProxies,
   }) {
     return [
       NavigationItem(

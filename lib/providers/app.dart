@@ -16,6 +16,9 @@ part 'generated/app.g.dart';
 bool safeMode(Ref ref) => safeModeBuild;
 
 @Riverpod(keepAlive: true)
+bool simpleModeEnabled(Ref ref) => simpleMode;
+
+@Riverpod(keepAlive: true)
 class AuthorizedTunEnable extends _$AuthorizedTunEnable
     with AutoDisposeNotifierMixin {
   @override
@@ -283,7 +286,7 @@ class CurrentPageLabel extends _$CurrentPageLabel
     with AutoDisposeNotifierMixin {
   @override
   PageLabel build() {
-    return PageLabel.dashboard;
+    return defaultPageLabel;
   }
 
   void toPage(PageLabel pageLabel) {

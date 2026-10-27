@@ -963,5 +963,17 @@
   "preferred": "Preferido",
   "addToLocalProxies": "Añadir a proxies locales",
   "addedToLocalProxies": "{name} añadido a proxies locales",
-  "alreadyInLocalProxies": "{name} ya está en proxies locales"
+  "alreadyInLocalProxies": "{name} ya está en proxies locales",
+  "home": "Home",
+  "subscriptionKey": "Subscription key or link",
+  "subscriptionKeyDesc": "Paste the key or the subscription link from your account.",
+  "connect": "Connect",
+  "disconnect": "Disconnect",
+  "subscriptionHostNotAllowed": "Only subscriptions from {host} are accepted",
+  "changeSubscription": "Change subscription",
+  "changeSubscriptionTip": "The current subscription will be removed and the connection stopped. You can enter a new key afterwards.",
+  "advancedSettings": "Advanced settings",
+  "servers": "Servers",
+  "noServersTip": "The server list appears once the subscription is loaded.",
+  "subscription": "Subscription"
 }

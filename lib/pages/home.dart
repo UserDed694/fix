@@ -429,10 +429,8 @@ class HomeBackScopeContainer extends ConsumerWidget {
         final canPop = Navigator.canPop(realContext);
         if (canPop) {
           Navigator.of(realContext).pop();
-        } else if (system.isTV && pageLabel != PageLabel.dashboard) {
-          ref
-              .read(currentPageLabelProvider.notifier)
-              .toPage(PageLabel.dashboard);
+        } else if (system.isTV && pageLabel != defaultPageLabel) {
+          ref.read(currentPageLabelProvider.notifier).toPage(defaultPageLabel);
         } else {
           await ref.read(systemActionProvider.notifier).handleClose();
         }

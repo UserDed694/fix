@@ -196,17 +196,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m79(label) => "${label}은(는) 하나만 입력해야 합니다";
 
-  static String m80(value) => "최고 ${value}";
+  static String m80(host) => "Only subscriptions from ${host} are accepted";
 
-  static String m81(value) => "합계 ${value}";
+  static String m81(value) => "최고 ${value}";
 
-  static String m82(transport) => "${transport} 요청 헤더";
+  static String m82(value) => "합계 ${value}";
 
-  static String m83(label) => "${label}은(는) URL이어야 합니다";
+  static String m83(transport) => "${transport} 요청 헤더";
 
-  static String m84(count) => "${Intl.plural(count, other: '${count}년 전')}";
+  static String m84(label) => "${label}은(는) URL이어야 합니다";
 
   static String m85(count) => "${Intl.plural(count, other: '${count}년 전')}";
+
+  static String m86(count) => "${Intl.plural(count, other: '${count}년 전')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -259,6 +261,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "advancedConfig": MessageLookupByLibrary.simpleMessage("고급 구성"),
     "advancedConfigDesc": MessageLookupByLibrary.simpleMessage(
       "고급 구성에는 네트워크, DNS, 추가한 규칙, 스크립트가 포함됩니다.",
+    ),
+    "advancedSettings": MessageLookupByLibrary.simpleMessage(
+      "Advanced settings",
     ),
     "ageEncryptedProfile": MessageLookupByLibrary.simpleMessage("암호화된 프로필"),
     "ageSecretKey": MessageLookupByLibrary.simpleMessage("age 비밀 키"),
@@ -361,6 +366,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "changeProxyFailedTip": MessageLookupByLibrary.simpleMessage(
       "프록시를 전환하지 못해 이전 선택을 복원했습니다",
     ),
+    "changeSubscription": MessageLookupByLibrary.simpleMessage(
+      "Change subscription",
+    ),
+    "changeSubscriptionTip": MessageLookupByLibrary.simpleMessage(
+      "The current subscription will be removed and the connection stopped. You can enter a new key afterwards.",
+    ),
     "changelogBreaking": MessageLookupByLibrary.simpleMessage("호환성 변경"),
     "changelogFeatures": MessageLookupByLibrary.simpleMessage("새로운 기능"),
     "changelogFixes": MessageLookupByLibrary.simpleMessage("버그 수정"),
@@ -412,6 +423,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "congestionControllerDesc": MessageLookupByLibrary.simpleMessage(
       "TCP 혼잡 제어는 mips 스택에서만 작동합니다.",
     ),
+    "connect": MessageLookupByLibrary.simpleMessage("Connect"),
     "connected": MessageLookupByLibrary.simpleMessage("연결됨"),
     "connecting": MessageLookupByLibrary.simpleMessage("연결 중…"),
     "connection": MessageLookupByLibrary.simpleMessage("연결"),
@@ -598,6 +610,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "본 소프트웨어는 “있는 그대로”, “이용 가능한 상태로” 제공되며, 상품성, 특정 목적에의 적합성, 비침해성, 중단 없는 이용 가능성, 오류 없음, 보안 취약점 없음에 대한 보증을 포함하되 이에 국한되지 않고 명시적이든 묵시적이든 어떠한 종류의 보증도 하지 않습니다.\n\n개발자는 본 소프트웨어가 사용자의 요구를 충족하거나 중단 및 오류 없이 실행될 것임을 보증하지 않습니다.",
     ),
     "disclaimerWarrantyTitle": MessageLookupByLibrary.simpleMessage("보증 부인"),
+    "disconnect": MessageLookupByLibrary.simpleMessage("Disconnect"),
     "disconnected": MessageLookupByLibrary.simpleMessage("연결 끊김"),
     "discoverNewVersion": MessageLookupByLibrary.simpleMessage("새 버전 발견"),
     "dnsCacheCleared": MessageLookupByLibrary.simpleMessage("DNS 캐시를 지웠습니다"),
@@ -744,6 +757,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "hideTimeoutProxies": MessageLookupByLibrary.simpleMessage(
       "시간 초과된 프록시 숨기기",
     ),
+    "home": MessageLookupByLibrary.simpleMessage("Home"),
     "hopInterval": MessageLookupByLibrary.simpleMessage("호핑 간격"),
     "host": MessageLookupByLibrary.simpleMessage("호스트"),
     "hostname": MessageLookupByLibrary.simpleMessage("호스트 이름"),
@@ -1038,6 +1052,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noResolve": MessageLookupByLibrary.simpleMessage("IP 확인 안 함"),
     "noResolveHostname": MessageLookupByLibrary.simpleMessage("호스트 이름 확인 안 함"),
     "noSearchResults": MessageLookupByLibrary.simpleMessage("일치하는 결과 없음"),
+    "noServersTip": MessageLookupByLibrary.simpleMessage(
+      "The server list appears once the subscription is loaded.",
+    ),
     "nodes": MessageLookupByLibrary.simpleMessage("노드"),
     "nonTextProviderFile": MessageLookupByLibrary.simpleMessage(
       "이 외부 리소스는 텍스트 파일이 아닙니다",
@@ -1405,6 +1422,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "휴대폰 카메라로 코드를 스캔한 뒤 열린 페이지에 링크를 붙여 넣으세요. 두 기기가 같은 네트워크에 연결되어 있어야 합니다.",
     ),
     "server": MessageLookupByLibrary.simpleMessage("서버"),
+    "servers": MessageLookupByLibrary.simpleMessage("Servers"),
     "serviceAbnormalCount": m76,
     "serviceAllAvailable": MessageLookupByLibrary.simpleMessage("모두 사용 가능"),
     "serviceAvailable": MessageLookupByLibrary.simpleMessage("사용 가능"),
@@ -1508,7 +1526,15 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "style": MessageLookupByLibrary.simpleMessage("스타일"),
     "submit": MessageLookupByLibrary.simpleMessage("제출"),
+    "subscription": MessageLookupByLibrary.simpleMessage("Subscription"),
+    "subscriptionHostNotAllowed": m80,
     "subscriptionInfo": MessageLookupByLibrary.simpleMessage("구독 정보"),
+    "subscriptionKey": MessageLookupByLibrary.simpleMessage(
+      "Subscription key or link",
+    ),
+    "subscriptionKeyDesc": MessageLookupByLibrary.simpleMessage(
+      "Paste the key or the subscription link from your account.",
+    ),
     "sudoPasswordTitle": MessageLookupByLibrary.simpleMessage(
       "sudo 비밀번호를 입력하세요",
     ),
@@ -1549,11 +1575,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "totalUpload": MessageLookupByLibrary.simpleMessage("업로드량"),
     "tproxyPort": MessageLookupByLibrary.simpleMessage("TProxy 포트"),
     "traffic": MessageLookupByLibrary.simpleMessage("트래픽"),
-    "trafficPeak": m80,
-    "trafficTotal": m81,
+    "trafficPeak": m81,
+    "trafficTotal": m82,
     "trafficUsage": MessageLookupByLibrary.simpleMessage("트래픽 사용량"),
     "transport": MessageLookupByLibrary.simpleMessage("전송"),
-    "transportHeaders": m82,
+    "transportHeaders": m83,
     "tun": MessageLookupByLibrary.simpleMessage("TUN"),
     "tunAuthorizationFailed": MessageLookupByLibrary.simpleMessage(
       "TUN 권한을 얻지 못해 끄기로 되돌렸습니다.",
@@ -1583,7 +1609,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "upload": MessageLookupByLibrary.simpleMessage("업로드"),
     "uploadBandwidth": MessageLookupByLibrary.simpleMessage("업로드 대역폭"),
     "url": MessageLookupByLibrary.simpleMessage("URL"),
-    "urlTip": m83,
+    "urlTip": m84,
     "useHosts": MessageLookupByLibrary.simpleMessage("hosts 사용"),
     "useSystemHosts": MessageLookupByLibrary.simpleMessage("시스템 hosts 사용"),
     "usedShort": MessageLookupByLibrary.simpleMessage("사용"),
@@ -1606,8 +1632,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "writeToSystemDesc": MessageLookupByLibrary.simpleMessage(
       "시스템에 기록하면 시스템 시계도 설정합니다. Android에서는 무시됩니다.",
     ),
-    "yearsAgo": m84,
-    "yearsAgoShort": m85,
+    "yearsAgo": m85,
+    "yearsAgoShort": m86,
     "yes": MessageLookupByLibrary.simpleMessage("예"),
     "zhCN": MessageLookupByLibrary.simpleMessage("중국어 간체"),
   };

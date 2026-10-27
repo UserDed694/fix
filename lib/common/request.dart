@@ -40,13 +40,20 @@ class Request {
     );
   }
 
-  Future<Response<T>> _download<T>(String url, ResponseType responseType) {
+  Future<Response<T>> _download<T>(
+    String url,
+    ResponseType responseType,
+  ) async {
     final target = downloadTarget(url);
+    final headers = {
+      ...target.headers,
+      ...subscriptionHeaders(target.uri, await preferences.getDeviceId()),
+    };
     final cancelToken = CancelToken();
     return _clashDio
         .getUri<T>(
           target.uri,
-          options: Options(responseType: responseType, headers: target.headers),
+          options: Options(responseType: responseType, headers: headers),
           cancelToken: cancelToken,
         )
         .timeout(

@@ -40,17 +40,22 @@ void main() {
     if (home.existsSync()) home.deleteSync(recursive: true);
   });
 
-  setUp(() {
-    core = _MockCoreHandlerInterface();
-    when(() => core.validateConfig(any())).thenAnswer((_) async => '');
+  void setUpContainer({required bool simple}) {
     container = ProviderContainer(
       overrides: [
         profilesProvider.overrideWith(TestProfiles.new),
         coreHandlerProvider.overrideWithValue(CoreController.scoped(core)),
+        simpleModeEnabledProvider.overrideWithValue(simple),
       ],
     );
     addTearDown(container.dispose);
     globalState.container = container;
+  }
+
+  setUp(() {
+    core = _MockCoreHandlerInterface();
+    when(() => core.validateConfig(any())).thenAnswer((_) async => '');
+    setUpContainer(simple: false);
   });
 
   void decodesTo(String link, List<Map<String, dynamic>> proxies) {
@@ -77,6 +82,58 @@ void main() {
     final config = loadYaml(await (await profile.file).readAsString()) as Map;
     return [for (final proxy in config['proxies'] as List) proxy as Map];
   }
+
+  group('in simple mode', () {
+    setUp(() => setUpContainer(simple: true));
+
+    String hostNotAllowed() => currentAppLocalizations
+        .subscriptionHostNotAllowed(allowedSubscriptionHost);
+
+    testWidgets('refuses a share link and a foreign subscription', (
+      tester,
+    ) async {
+      const link = 'vless://id@hk.example.com:443#HK';
+      decodesTo(link, [
+        {'name': 'HK', 'type': 'vless', 'server': 'hk.example.com'},
+      ]);
+      await pumpHost(tester);
+
+      await container
+          .read(profilesActionProvider.notifier)
+          .addProfileFromLink(link);
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pumpAndSettle();
+
+      expect(container.read(profilesProvider), isEmpty);
+      expect(find.text(hostNotAllowed()), findsOne);
+      verifyNever(() => core.decodeShareLinks(any()));
+
+      await container
+          .read(profilesActionProvider.notifier)
+          .addProfilesFromLinks(['https://example.com/sub']);
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pumpAndSettle();
+
+      expect(container.read(profilesProvider), isEmpty);
+      expect(tester.takeException(), isNull);
+    });
+
+    test('refuses local and custom profiles', () {
+      expect(
+        () => container
+            .read(profilesActionProvider.notifier)
+            .addCustomProfile('Mine'),
+        throwsA(
+          isA<MessageException>().having(
+            (e) => e.message,
+            'message',
+            hostNotAllowed(),
+          ),
+        ),
+      );
+      expect(container.read(profilesProvider), isEmpty);
+    });
+  });
 
   group('addProfileFromLink with a share link', () {
     test('saves a file profile named after the proxy it holds', () async {

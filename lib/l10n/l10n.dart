@@ -8052,6 +8052,106 @@ class AppLocalizations {
       args: [name],
     );
   }
+
+  /// `Home`
+  String get home {
+    return Intl.message('Home', name: 'home', desc: '', args: []);
+  }
+
+  /// `Subscription key or link`
+  String get subscriptionKey {
+    return Intl.message(
+      'Subscription key or link',
+      name: 'subscriptionKey',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Paste the key or the subscription link from your account.`
+  String get subscriptionKeyDesc {
+    return Intl.message(
+      'Paste the key or the subscription link from your account.',
+      name: 'subscriptionKeyDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connect`
+  String get connect {
+    return Intl.message('Connect', name: 'connect', desc: '', args: []);
+  }
+
+  /// `Disconnect`
+  String get disconnect {
+    return Intl.message('Disconnect', name: 'disconnect', desc: '', args: []);
+  }
+
+  /// `Only subscriptions from {host} are accepted`
+  String subscriptionHostNotAllowed(Object host) {
+    return Intl.message(
+      'Only subscriptions from $host are accepted',
+      name: 'subscriptionHostNotAllowed',
+      desc: '',
+      args: [host],
+    );
+  }
+
+  /// `Change subscription`
+  String get changeSubscription {
+    return Intl.message(
+      'Change subscription',
+      name: 'changeSubscription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The current subscription will be removed and the connection stopped. You can enter a new key afterwards.`
+  String get changeSubscriptionTip {
+    return Intl.message(
+      'The current subscription will be removed and the connection stopped. You can enter a new key afterwards.',
+      name: 'changeSubscriptionTip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Advanced settings`
+  String get advancedSettings {
+    return Intl.message(
+      'Advanced settings',
+      name: 'advancedSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Servers`
+  String get servers {
+    return Intl.message('Servers', name: 'servers', desc: '', args: []);
+  }
+
+  /// `The server list appears once the subscription is loaded.`
+  String get noServersTip {
+    return Intl.message(
+      'The server list appears once the subscription is loaded.',
+      name: 'noServersTip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subscription`
+  String get subscription {
+    return Intl.message(
+      'Subscription',
+      name: 'subscription',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

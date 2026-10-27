@@ -536,6 +536,8 @@ void main() {
       final container = ProviderContainer(
         overrides: [
           profilesProvider.overrideWith(() => TestProfiles(profiles)),
+          // Custom profiles are a full-mode feature; simple mode hides them.
+          simpleModeEnabledProvider.overrideWithValue(false),
           profileRulesProvider.overrideWith2((_) => _TestProfileRules([])),
           proxyGroupsProvider.overrideWith2((_) => _TestProxyGroups(groups)),
           customProfileDataProvider.overrideWith(

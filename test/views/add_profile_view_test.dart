@@ -42,6 +42,7 @@ ProviderContainer _containerFor(
   WidgetTester tester, {
   ProfilesAction? profilesAction,
   List<Profile> profiles = const [],
+  bool simple = false,
 }) {
   const size = Size(1400, 1000);
   tester.view.physicalSize = size;
@@ -52,6 +53,7 @@ ProviderContainer _containerFor(
   final container = ProviderContainer(
     overrides: [
       profilesProvider.overrideWith(() => TestProfiles(profiles)),
+      simpleModeEnabledProvider.overrideWithValue(simple),
       if (profilesAction != null)
         profilesActionProvider.overrideWith(() => profilesAction),
     ],
@@ -95,6 +97,19 @@ void main() {
     expect(find.text(l10n.file), findsOne);
     expect(find.text(l10n.link), findsOne);
     expect(find.text(l10n.customProfile), findsOne);
+    expect(tester.takeException(), null);
+  });
+
+  testWidgets('simple mode offers the link entry only', (tester) async {
+    final container = _containerFor(tester, simple: true);
+
+    await _openMenu(tester, container);
+
+    final l10n = currentAppLocalizations;
+    expect(find.text(l10n.link), findsOne);
+    expect(find.text(l10n.qrcode), findsNothing);
+    expect(find.text(l10n.file), findsNothing);
+    expect(find.text(l10n.customProfile), findsNothing);
     expect(tester.takeException(), null);
   });
 

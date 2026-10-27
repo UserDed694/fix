@@ -963,5 +963,17 @@
   "preferred": "Предпочтительный",
   "addToLocalProxies": "Добавить в локальные прокси",
   "addedToLocalProxies": "«{name}» добавлен в локальные прокси",
-  "alreadyInLocalProxies": "«{name}» уже есть в локальных прокси"
+  "alreadyInLocalProxies": "«{name}» уже есть в локальных прокси",
+  "home": "Главная",
+  "subscriptionKey": "Ключ или ссылка подписки",
+  "subscriptionKeyDesc": "Вставьте ключ или ссылку подписки из личного кабинета.",
+  "connect": "Подключить",
+  "disconnect": "Отключить",
+  "subscriptionHostNotAllowed": "Принимаются только подписки с {host}",
+  "changeSubscription": "Сменить подписку",
+  "changeSubscriptionTip": "Текущая подписка будет удалена, а соединение остановлено. После этого можно ввести новый ключ.",
+  "advancedSettings": "Расширенные настройки",
+  "servers": "Серверы",
+  "noServersTip": "Список серверов появится после загрузки подписки.",
+  "subscription": "Подписка"
 }
