@@ -10,17 +10,46 @@ String _androidAttribute(String source, String element, String attribute) {
   ).firstMatch(elementTag)!.group(1)!;
 }
 
-double _androidDoubleAttribute(
-  String source,
-  String element,
-  String attribute,
-) {
-  return double.parse(_androidAttribute(source, element, attribute));
+Future<ui.Image> _decode(File file) async {
+  final codec = await ui.instantiateImageCodec(await file.readAsBytes());
+  final frame = await codec.getNextFrame();
+  codec.dispose();
+  return frame.image;
+}
+
+/// Прямоугольник непрозрачных пикселей — то, что реально видно на иконке.
+Future<ui.Rect> _opaqueBounds(ui.Image image) async {
+  final bytes = (await image.toByteData(
+    format: ui.ImageByteFormat.rawStraightRgba,
+  ))!;
+  var left = image.width;
+  var top = image.height;
+  var right = -1;
+  var bottom = -1;
+  for (var y = 0; y < image.height; y++) {
+    for (var x = 0; x < image.width; x++) {
+      final alpha = bytes.getUint8((y * image.width + x) * 4 + 3);
+      if (alpha < 128) {
+        continue;
+      }
+      if (x < left) left = x;
+      if (x > right) right = x;
+      if (y < top) top = y;
+      if (y > bottom) bottom = y;
+    }
+  }
+  return ui.Rect.fromLTRB(
+    left.toDouble(),
+    top.toDouble(),
+    right + 1.0,
+    bottom + 1.0,
+  );
 }
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  // Иконки fix — растровые PNG (у FlClash были WebP и векторный логотип).
   test('TV launcher icons meet density-specific minimum sizes', () async {
     const expectedSizes = {
       'mdpi': 80,
@@ -33,70 +62,45 @@ void main() {
     for (final MapEntry(key: density, value: size) in expectedSizes.entries) {
       final file = File(
         'android/app/src/main/res/'
-        'mipmap-television-$density/ic_launcher.webp',
+        'mipmap-television-$density/ic_launcher.png',
       );
       expect(file.existsSync(), isTrue, reason: 'missing ${file.path}');
 
-      final codec = await ui.instantiateImageCodec(await file.readAsBytes());
-      final frame = await codec.getNextFrame();
-      expect(
-        (frame.image.width, frame.image.height),
-        (size, size),
-        reason: file.path,
-      );
-      frame.image.dispose();
-      codec.dispose();
+      final image = await _decode(file);
+      expect((image.width, image.height), (size, size), reason: file.path);
+      image.dispose();
     }
   });
 
-  test('TV adaptive launcher icon stays centered in the safe zone', () {
+  test('TV adaptive launcher icon stays centered in the safe zone', () async {
     final adaptiveIcon = File(
       'android/app/src/main/res/'
       'mipmap-television-anydpi-v26/ic_launcher.xml',
     ).readAsStringSync();
     expect(
       _androidAttribute(adaptiveIcon, 'foreground', 'drawable'),
-      '@drawable/ic_launcher_foreground_tv',
+      '@drawable/ic_launcher_foreground',
     );
     expect(
       _androidAttribute(adaptiveIcon, 'background', 'drawable'),
       '@color/ic_launcher_background',
     );
 
-    final vector = File(
-      'android/app/src/main/res/drawable/'
-      'ic_launcher_foreground_tv.xml',
-    ).readAsStringSync();
-    final scaleX = _androidDoubleAttribute(vector, 'group', 'scaleX');
-    final scaleY = _androidDoubleAttribute(vector, 'group', 'scaleY');
-    final translateX = _androidDoubleAttribute(vector, 'group', 'translateX');
-    final translateY = _androidDoubleAttribute(vector, 'group', 'translateY');
-    final viewportWidth = _androidDoubleAttribute(
-      vector,
-      'vector',
-      'viewportWidth',
+    // mdpi: 1 px = 1 dp, поэтому границы сравниваются прямо с зоной 72 dp
+    // внутри холста адаптивной иконки 108 dp.
+    final foreground = await _decode(
+      File('android/app/src/main/res/drawable-mdpi/ic_launcher_foreground.png'),
     );
-    final viewportHeight = _androidDoubleAttribute(
-      vector,
-      'vector',
-      'viewportHeight',
-    );
-
-    // Conservative bounds of the current logo, including the curved caps.
-    const logoBounds = ui.Rect.fromLTRB(54, 33, 179, 206.5);
-    final transformedBounds = ui.Rect.fromLTRB(
-      (logoBounds.left * scaleX + translateX) / viewportWidth * 108,
-      (logoBounds.top * scaleY + translateY) / viewportHeight * 108,
-      (logoBounds.right * scaleX + translateX) / viewportWidth * 108,
-      (logoBounds.bottom * scaleY + translateY) / viewportHeight * 108,
-    );
+    expect((foreground.width, foreground.height), (108, 108));
+    final glyphBounds = await _opaqueBounds(foreground);
+    foreground.dispose();
     const safeZone = ui.Rect.fromLTWH(18, 18, 72, 72);
 
-    expect(transformedBounds.left, greaterThanOrEqualTo(safeZone.left));
-    expect(transformedBounds.top, greaterThanOrEqualTo(safeZone.top));
-    expect(transformedBounds.right, lessThanOrEqualTo(safeZone.right));
-    expect(transformedBounds.bottom, lessThanOrEqualTo(safeZone.bottom));
-    expect(transformedBounds.center.dx, closeTo(safeZone.center.dx, 0.05));
-    expect(transformedBounds.center.dy, closeTo(safeZone.center.dy, 0.05));
+    expect(glyphBounds.left, greaterThanOrEqualTo(safeZone.left));
+    expect(glyphBounds.top, greaterThanOrEqualTo(safeZone.top));
+    expect(glyphBounds.right, lessThanOrEqualTo(safeZone.right));
+    expect(glyphBounds.bottom, lessThanOrEqualTo(safeZone.bottom));
+    expect(glyphBounds.center.dx, closeTo(safeZone.center.dx, 1.5));
+    expect(glyphBounds.center.dy, closeTo(safeZone.center.dy, 1.5));
   });
 }
